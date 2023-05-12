@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" 
+xmlns:sec="http://www.thymeleaf.org/extras/spring-security5">
+
+<head th:replace = "fragments/layout :: head">
+
+<script type="text/javascript">
+
+$(document).ready(function() {
+	
+	$(document).delegate('#addNew', 'click', function(event) {
+		event.preventDefault();
+		
+		
+	});
+});
+</script>
+
+</head>
+<body>
+  <div th:replace="fragments/layout :: header"></div>
+  
+  <div th:replace="fragments/layout :: toolbar"></div>
+  
+  <div class="content" align="center">
+  <table class="offers">
+
+			
+				<tr class="offerrow" th:each="offer : ${offers}">
+
+					<td class="name"><span th:text="${offer.creatorName}" th:value="${offer.creatorName}"></span></td>
+					
+					
+					<td class="contact"><a
+						href="#" th:href="@{/sendMessage/{receiverId}(receiverId = ${offer.participantId})}">contact</a></td>
+						
+
+					<td class="offer"><span th:text="${offer.text}" th:value="${offer.text}"></span></td>
+					
+					
+
+				</tr>
+			
+		</table>
+		
+		
+	</div>
+	
+	<div th:replace="fragments/layout :: footer"></div>
+	
+	<script >
+	
+	setTimeout(function () {
+	    window.location.reload();
+	}, 20000);  // After 20 secs
+
+	</script>
+	</body>
+</html>

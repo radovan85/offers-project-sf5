@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" 
+xmlns:sec="http://www.thymeleaf.org/extras/spring-security5">
+
+<head th:replace = "fragments/layout :: head"></head>
+<body>
+  <div th:replace="fragments/layout :: header"></div>
+  
+  <div th:replace="fragments/layout :: toolbar"></div>
+  
+  <div class="content" align="center">
+  
+  <h3>Authorised Users Only!</h3>
+  
+  <th:block th:if="${message}">
+		<span th:text="${message}"></span>
+		</th:block>
+
+		<table class="formtable">
+			<tr>
+				<td>Id</td>
+				<td>First Name</td>
+				<td>Last Name</td>
+				<td>Email</td>
+				<td>Role</td>
+				<td>Enabled</td>
+			</tr>
+
+			
+
+				<tr th:each="user : ${users}">
+					<td><span th:text="${user.id}" th:value="${user.id}"></span></td>
+					<td><span th:text="${user.firstName}" th:value="${user.firstName}"></span></td>
+					<td><span th:text="${user.lastName}" th:value="${user.lastName}"></span></td>
+					<td><span th:text="${user.email}" th:value="${user.email}"></span></td>
+					<!--  <td><c:out value="${user.getRoles()}"></c:out></td> -->
+					<td th:each= "authority : ${user.roles}">
+					
+					<span  th:text = "${authority.role}" th:value = "${authority.role}"></span>
+					
+					</td>
+					<td>
+					<th:block th:if="${user.enabled == 1}">
+					<span>Enabled</span>
+					</th:block>
+					
+					<th:block th:if="${user.enabled == 0}">
+					<span>Suspended</span>
+					</th:block>
+					</td>
+
+				</tr>
+
+			
+
+		</table>
+  
+  </div>
+  <div th:replace="fragments/layout :: footer"></div>
+	</body>
+</html>

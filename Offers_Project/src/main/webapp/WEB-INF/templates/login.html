@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+xmlns:sec="http://www.thymeleaf.org/extras/spring-security5"
+>
+
+<head th:replace="fragments/layout :: head"></head>
+
+<body>
+<div th:replace="fragments/layout :: header"></div>
+
+<h3 align="center">Login with Username and Password</h3>
+
+	<th:block th:if="${param.error != null}">
+
+		<p class="error">Login failed. Check that your username and
+			password are correct.</p>
+
+	</th:block>
+	
+	<th:block th:if="${message}">
+	<h4 th:text="${message}" style="color: red"></h4>
+	</th:block>
+	
+	
+	<div align="center">
+		<form name='f' th:action= "@{/login}" method='POST'>
+
+			<table class="formtable">
+				<tr>
+					<td>User:</td>
+					<td><input name="email" placeholder="email" /></td>
+				</tr>
+				<tr>
+					<td>Password:</td>
+					<td><input type="password" name="password"
+							placeholder="password" /></td>
+				</tr>
+				<tr>
+					<td>Remember me:</td>
+					<td><input type='checkbox' name='_spring_security_remember_me'
+						checked="checked" /></td>
+				</tr>
+				<tr>
+					<td colspan='2'><input name="submit" type="submit"
+						class="standard-button" value="Login" style="float: right;height: 30px;width: 80px;"/></td>
+				</tr>
+			</table>
+		</form>
+
+		<p>
+			<a th:href="@{/newaccount}"><button class="standard-button" style="height: 30px;width: 80px;">Register</button></a>
+		</p>
+		<div th:replace="fragments/layout :: footer"></div>
+			
+	</div>
+</body>
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security5">
+
+<head th:replace="fragments/layout :: head">
+<body>
+	<div th:replace="fragments/layout :: header"></div>
+
+	<table class="offers" style="margin-top: 40px;">
+
+
+		<tr class="offerrow" th:each="offer : ${offers}">
+
+			<td class="name"><span th:text="${offer.creatorName}"
+				th:value="${offer.creatorName}"></span></td>
+
+			<td class="offer"><span th:text="${offer.text}"
+				th:value="${offer.text}"></span></td>
+				
+			<td>
+			<a th:href="@{/updateOffer/{offerId}(offerId=${offer.id})}">
+			<button class="standard-button" style="height: 30px;width: 80px;font-family: inherit; font-style: italic;">Update</button></a>
+			<a th:href="@{/deleteOffer/{offerId}(offerId=${offer.id})}">
+			<button class="standard-button" style="height: 30px;width: 80px;font-family: inherit; font-style: italic;" th:onclick="if (!(confirm('Are you sure you want to delete this offer?'))) return false">Delete</button>
+			</a>
+			
+			</td>
+
+
+
+		</tr>
+
+	</table>
+
+
+
+
+	<div th:replace="fragments/layout :: footer"></div>
+
+</body>
+</html>

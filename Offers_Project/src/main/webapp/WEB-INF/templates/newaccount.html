@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" 
+xmlns:sec="http://www.thymeleaf.org/extras/spring-security5">
+
+<head th:replace = "fragments/layout :: head"></head>
+<body>
+  <div th:replace="fragments/layout :: header"></div>
+  
+  <div class="content" align="center">
+		<h2>Create New Account</h2>
+		
+		<th:block th:if="message">
+		<h4 th:text="${message}" style="color: red;"></h4>
+		</th:block>
+
+		<form id="details" method="POST"
+			th:action="@{/createaccount}"
+			th:object="${user}">
+
+			<table class="formtable">
+
+				<tr>
+					<td class="label">First Name:</td>
+					<td><input class="control" name="firstName"
+							 type="text" /><br />
+						<span
+							th:errors="${user.firstName}" class="text-danger"></span></td>
+				</tr>
+				<tr>
+					<td class="label">Last Name:</td>
+					<td><input class="control" 
+							name="lastName" type="text" /><br />
+						<span
+							th:errors="${user.lastName}" class="text-danger"></span></td>
+				</tr>
+				<tr>
+					<td class="label">Email:</td>
+					<td><input class="control"  name="email"
+							type="email" />
+						<span
+							th:errors="${user.email}" class="text-danger"></span></td>
+				</tr>
+				<tr>
+					<td class="label">Password:</td>
+					<td><input id="password" class="control" 
+							name="password" type="password" />
+						<span
+							th:errors="${user.password}" class="text-danger"></span></td>
+				</tr>
+				<tr>
+					<td class="label">Confirm Password:</td>
+					<td><input id="confirmpass" class="control" name="confirmpass"
+						type="password" />
+						<div id="matchpass"></div></td>
+				</tr>
+				<tr>
+					<td class="label"></td>
+					<td><input class="standard-button" style="height:30px; width:100px; margin-top: 25px;float: right;" value="Create account"
+						type="submit" th:onclick="return Validate()" /></td>
+				</tr>
+			</table>
+
+		</form>
+
+	</div>
+	
+	<div th:replace="fragments/layout :: footer"></div>
+	
+	
+	
+	<!-- Validating Password -->
+	<script type="text/javascript">
+		function Validate() {
+			var password = document.getElementById("password").value;
+			var confirmpass = document.getElementById("confirmpass").value;
+			if (password != confirmpass) {
+				alert("Password does Not Match.");
+				return false;
+			}
+			return true;
+		}
+	</script>
+	
+</body>
+</html>

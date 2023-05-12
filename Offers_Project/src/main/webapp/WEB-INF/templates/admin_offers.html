@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" 
+xmlns:sec="http://www.thymeleaf.org/extras/spring-security5">
+
+<head th:replace = "fragments/layout :: head"></head>
+<body>
+  <div th:replace="fragments/layout :: header"></div>
+  
+  <div class="content" align="center">
+  
+  <a href="#" th:href="@{/admin}">
+			<button class="standard-button" style="height: 30px; width: 80px; margin-left: 10px; margin-bottom: 50px; font-family: inherit; font-style: italic;">Admin</button>
+			</a>
+  
+  <table class="offers">
+
+			
+				<tr class="offerrow" th:each="offer : ${offers}">
+
+					<td class="name"><span th:text="${offer.creatorName}" th:value="${offer.creatorName}"></span></td>
+					
+					
+					<td class="contact"><a
+						href="#" th:href="@{/admin/suspendUser/{participantId}(participantId = ${offer.participantId})}">
+						<button  class="standard-button" style="height: 30px; width: 80px; margin-left: 10px; font-family: inherit; font-style: italic;" th:onclick="if (!(confirm('Suspend this user?'))) return false">Suspend</button>
+						</a></td>
+						
+
+					<td class="offer"><span th:text="${offer.text}" th:value="${offer.text}"></span></td>
+					
+					
+
+				</tr>
+			
+		</table>
+		</div>

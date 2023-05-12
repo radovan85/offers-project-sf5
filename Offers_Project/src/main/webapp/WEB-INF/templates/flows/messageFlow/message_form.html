@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" 
+xmlns:sec="http://www.thymeleaf.org/extras/spring-security5">
+
+<head th:replace="fragments/layout :: head"></head>
+
+<body>
+
+
+  <div th:replace="fragments/layout :: header"></div>
+  
+  <div class="content" align="center">
+  
+  
+  <h2>Reply Message</h2>
+  
+
+<form name="messageForm">
+
+	<!--  
+	<input type="hidden" name="_flowExecutionKey" value="${flowExecutionKey}" />
+	<input type="hidden" name="_eventId" value="send" />
+	-->
+
+	<table class="formtable">
+	
+		<tr>
+			<td class="label">Your name:</td>
+			<td><span class="control"  id="sender" th:text="${message.receiverName}" th:value="${message.receiverName}" ></span><br />
+				
+		</tr>
+		
+		<tr>
+			<td class="label">Reply To:</td>
+			<td><span class="control"  th:text="${message.senderName}" th:value="${message.senderName}" ></span><br />
+			
+				
+		</tr>
+		
+		<tr>
+			<td class="label">Subject:</td>
+			<td><input class="control" name="subject" id="subject" data-bind="value: $root.subject" ><br />
+			<span id="subjectError" class="text-danger" th:style="${'visibility: hidden;'}" th:text="${'Please provide subject!Minimum 5 letters!'}"></span></td>
+				
+		</tr>
+		<tr>
+			<td class="label">Your Message:</td>
+			<td><textarea class="control" name="text" id="text" data-bind="value: $root.text"/></textarea><br />
+			<span id="textError" class="text-danger" th:style="${'visibility: hidden;'}" th:text="${'Minimum 5 max 255 letters!'}"></span></td>
+				
+		</tr>
+		<tr>
+		<td><input type="hidden"  name=${senderId} th:value = "${senderId}" id="senderId" /></td>
+		</tr>
+		<tr>
+		<td><input type="hidden"  name=${receiverId} th:value = "${receiverId}" id="receiverId" /></td>
+		</tr>
+		
+		<tr>
+			<td class="label"></td>
+			<td><input class="standard-button" style="height: 30px; width: 80px; margin-left: 10px; font-family: inherit; font-style: italic;" th:onclick="return validateForm()"  type="submit"  value="Reply" id="reply-message" data-bind="click :$root.reply" /></td>
+		</tr>
+		
+		
+		 
+	</table>
+
+</form>
+
+
+
+
+  
+  </div>
+  
+  <div align="center">
+  <a  th:href="@{${flowExecutionUrl}(_eventId='backToMessages')}" style="text-decoration: none">
+  <button class="standard-button" style="height: 30px; width: 100px;margin-bottom:80px; font-family: inherit; font-style: italic;">Back</button>
+                            </a>
+                            
+ <a  th:href="@{${flowExecutionUrl}(_eventId='home')}">
+ <button class="standard-button" style="height: 30px; width: 100px; margin-left: 20px;margin-bottom:80px; font-family: inherit; font-style: italic;">Home</button>
+                            </a>
+   </div>
+  
+  
+  
+  <div th:replace="fragments/layout :: footer"></div>
+  
+  <script type="text/javascript">
+  //var senderId = document.getElementById("senderId").val;
+  //var receiverId = document.getElementById("receiverId").val;
+  var senderId = "[[${senderId}]]";
+  var receiverId = "[[${receiverId}]]";
+  var subject = "[[${subject}]]";
+  var sender = "";
+  var receiver = "";
+  
+  function validateForm() {
+	    var subject = document.getElementById("subject").value;
+	    var text = document.getElementById("text").value;
+	    
+	    var returnValue = true;
+	    
+	    if(subject === "" || subject.length < 5){
+			$("#subjectError").css({"visibility": "visible"});
+			returnValue = false;
+		}else{
+			$("#subjectError").css({"visibility": "hidden"});
+		}
+	    
+	    if(text.length < 5 || text.length > 255){
+			$("#textError").css({"visibility": "visible"});
+			returnValue = false;
+		}else{
+			$("#textError").css({"visibility": "hidden"});
+		}
+	    
+	    return returnValue;
+	    
+	  }
+  
+  
+  	 
+  </script>
+  
+  <script th:src="@{/js/script.js}"></script>
+  
+    </body> 
+    
+</html>

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security5">
+<head th:fragment="head">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Offer Project</title>
+<link th:href="@{/css/main.css}" href="../static/css/main.css"
+	rel="stylesheet" />
+
+<script
+			  src="https://code.jquery.com/jquery-3.5.1.min.js"
+			  integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
+			  crossorigin="anonymous"></script>
+<script type="text/javascript"
+	src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.min.js"></script>
+
+<script th:src="@{/js/knockout.js}"></script>
+<script th:src="@{/js/knockout-mapping.js}"></script>
+
+
+
+</head>
+
+<body>
+
+	
+	<div class="header" th:fragment="header">
+		<th:block sec:authorize="hasAuthority('ROLE_USER')">
+		<a class="title"  th:href="@{/}">Offers</a>
+		</th:block>
+		
+		<th:block sec:authorize="!isAuthenticated()">
+		<a class="title"  th:href="@{/}">Offers</a>
+		</th:block>
+		
+		<th:block sec:authorize="hasAuthority('ADMIN')">
+		<a class="title"  th:href="@{/admin/offers}">Offers</a>
+		</th:block>
+
+		<th:block sec:authorize="!isAuthenticated()">
+			<a class="login" th:href="@{/login}">Log in</a>
+		</th:block>
+
+
+		<th:block sec:authorize="isAuthenticated()">
+			<a class="login" th:href="@{/logout}">Log out</a>
+		</th:block>
+
+
+
+
+	</div>
+
+
+	<div class="toolbar" th:fragment="toolbar" >
+		
+			<th:block sec:authorize="hasAuthority('ROLE_USER')">
+			<th:block th:if="${'(hasOffer)'}">
+				<a  th:href="@{/currentOffers/{participantId} (participantId=${participant.id})}" style="text-decoration: none">
+				<button class="standard-button" style="height: 40px; width: 100px; margin-left: 10px; font-family: inherit; font-style: italic;">Your Offers</button>
+				</a>
+			</th:block>
+		</th:block>
+
+		
+			<th:block sec:authorize="hasAuthority('ROLE_USER')">
+			<th:block th:if="${'(!hasOffer)'}">
+				<a href="#" th:href="@{/createoffer}" style="text-decoration: none">
+				<button class="standard-button" style="height: 40px; width: 100px; margin-left: 10px;margin-top: 10px; font-family: inherit; font-style: italic;">Add New Offer</button>
+				</a>
+			</th:block>
+		</th:block>
+
+		&nbsp;
+
+
+
+		&nbsp;
+		<th:block sec:authorize="hasAuthority('ROLE_USER')">
+			<a th:href="@{/getMessages/{receiverId} (receiverId=${participant.id})}" ><button class="standard-button" style="height: 40px; width: 100px; margin-left: 10px; font-family: inherit; font-style: italic;">Messages (<span
+				th:text="${allMessages.size()}" th:value="${allMessages.size()}"></span>)</button>
+			</a>
+		</th:block>
+		
+		
+	</div>
+
+
+	<div class="footer" th:fragment="footer">
+		Created by John W Purcell http://www.caveofprogramming.com<br>
+		Fully updated by Milan Radovanovic 2022
+	</div>
+</body>
+</html>

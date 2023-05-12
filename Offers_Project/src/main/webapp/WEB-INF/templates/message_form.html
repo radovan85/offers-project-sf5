@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" 
+xmlns:sec="http://www.thymeleaf.org/extras/spring-security5">
+
+<head th:replace="fragments/layout :: head"></head>
+
+<body>
+
+
+  <div th:replace="fragments/layout :: header"></div>
+  
+  <div class="content" align="center">
+  
+  
+  <h2>Send Message</h2>
+
+<form th:object="${message}" name="messageForm" >
+
+
+	<table class="formtable">
+	
+		<tr>
+			<td class="label">Your name:</td>
+			<td><span class="control"  id="senderName" th:text="${senderName}" th:value="${senderName}" ></span><br /></td>
+				
+		</tr>
+		
+		<tr>
+			<td class="label">Message To:</td>
+			<td><span class="control"  th:text="${receiverName}" th:value="${receiverName}"></span><br />
+				
+		</tr>
+		
+		<tr>
+			<td class="label">Subject:</td>
+			<td><input class="control" name="subject" type="text"  id="subject" data-bind="value: $root.subject" >
+			<br>
+			<span id="subjectError" class="text-danger" th:style="${'visibility: hidden;'}" th:text="${'Please provide subject!Min 5 letters!'}"></span></td>
+			
+				
+		</tr>
+		<tr>
+			<td class="label">Your Message:</td>
+			<td><textarea class="control" name="text" id="text" data-bind="value: $root.text" ></textarea><br>
+			<span id="textError" class="text-danger" th:style="${'visibility: hidden;'}" th:text="${'Minimum 5 max 255 letters!'}"></span></td>
+				
+		</tr>
+		<tr>
+		<td><input type="hidden"  name=${senderId} th:value = "${senderId}"  /></td>
+		</tr>
+		<tr>
+		<td><input type="hidden"  name=${receiverId} th:value = "${receiverId}"  /></td>
+		</tr>
+		<tr>
+			<td class="label"></td>
+			<td><input type="submit" th:onclick="return validateForm()" class="standard-button" style="height: 30px; width: 100px; margin-left: 10px; font-family: inherit; font-style: italic;" value="Send Message" id="send-message" data-bind="click :$root.save" /></input></td>
+		</tr>
+	</table>
+
+</form>
+ 
+  </div>
+  
+  <div id="redirectButton" align="center"></div>
+  
+  
+  
+  <div th:replace="fragments/layout :: footer"></div>
+  
+  <script type="text/javascript">
+  var senderId = "[[${senderId}]]";
+  var sender = "[[${senderName}]]";
+  var receiverId = "[[${receiverId}]]";
+  var receiver = "[[${receiverName}]]"; 
+  var sender = "";
+  var receiver = "";
+  
+  
+  function validateForm() {
+    var subject = document.getElementById("subject").value;
+    var text = document.getElementById("text").value;
+    
+    var returnValue = true;
+    
+    if(subject === "" || subject.length < 5){
+		$("#subjectError").css({"visibility": "visible"});
+		returnValue = false;
+	}else{
+		$("#subjectError").css({"visibility": "hidden"});
+	}
+    
+    if(text.length < 5 || text.length > 255){
+		$("#textError").css({"visibility": "visible"});
+		returnValue = false;
+	}else{
+		$("#textError").css({"visibility": "hidden"});
+	}
+    
+    return returnValue;
+    
+  }
+  
+  	 
+  </script>
+  
+  <script th:src="@{/js/script.js}"></script>
+    </body> 
+    
+</html>

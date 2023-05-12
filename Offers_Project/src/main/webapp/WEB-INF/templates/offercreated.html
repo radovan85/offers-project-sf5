@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" 
+xmlns:sec="http://www.thymeleaf.org/extras/spring-security5">
+
+<head th:replace = "fragments/layout :: head"></head>
+<body>
+  <div th:replace="fragments/layout :: header"></div>
+  
+  <div th:replace="fragments/layout :: toolbar"></div>
+  
+  <div class="content" align="center">
+  
+  Offer created: <a  th:href="@{/}">click here to view current offers.</a>
+  </div>
+	
+	<div th:replace="fragments/layout :: footer"></div>
+	</body>
+</html>

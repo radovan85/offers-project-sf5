@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<flow xmlns="http://www.springframework.org/schema/webflow"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/webflow
+						  http://www.springframework.org/schema/webflow/spring-webflow.xsd">
+
+<var name="message" class="com.radovan.spring.dto.MessageDto" />
+<var name="participant" class="com.radovan.spring.dto.ParticipantDto" />
+
+	<on-start >
+	<evaluate expression="participantServiceHandler.getParticipant(requestParameters.receiverId)" result="participant"></evaluate>
+	<evaluate expression="messageServiceHandler.listAllByReceiverId(requestParameters.receiverId)" result="flowScope.receivedMessages" />
+	<set name="flowScope.fullName" value="participant?.fullName" />
+	<set name="flowScope.receiverId" value="participant?.id" />
+	</on-start>
+	
+	
+    <view-state id="allMessages" view="flows/messageFlow/messages.html" model="message">
+    
+        <transition on="reply" to="replyForm" bind="false" validate="false" >
+        <set name="requestScope.messageId" value="requestParameters.id"></set>
+        <evaluate expression="messageServiceHandler.getMessage(messageId)" result="message"></evaluate>
+        <set name="conversationScope.senderId" value="message.senderId" />
+        <set name="conversationScope.receiverId" value="message.receiverId" />
+        </transition>
+        
+        <transition on="delete" to="deleteMessage" bind="false" validate="false">
+        <set name="conversationScope.id" value="requestParameters.id"  />
+        <set name="conversationScope.receiverId" value ="receiverId" ></set>
+        </transition>
+        
+        <transition on="clear" to="clearAllMessages" bind="false" validate="false">
+        <set name="conversationScope.id" value="requestParameters.id"  />
+        <set name="conversationScope.receiverId" value ="receiverId"  ></set>
+        
+        </transition>
+        
+        
+    </view-state>
+    
+   	<action-state id="deleteMessage" >
+   	<evaluate expression="messageServiceHandler.deleteMessage(id)"></evaluate>
+   	<transition to="allMessages">
+   	<evaluate expression="participantServiceHandler.getParticipant(receiverId)" result="participant"></evaluate>
+	<evaluate expression="messageServiceHandler.listAllByReceiverId(receiverId)" result="flowScope.receivedMessages" />
+   	</transition>
+   	</action-state>
+   	
+   	<action-state id="clearAllMessages">
+   	<evaluate expression="messageServiceHandler.removeAllByReceiverId(receiverId)"></evaluate>
+   	<transition to="allMessages">
+    <evaluate expression="participantServiceHandler.getParticipant(receiverId)" result="participant"></evaluate>
+	<evaluate expression="messageServiceHandler.listAllByReceiverId(receiverId)" result="flowScope.receivedMessages" />
+	</transition>
+   	</action-state>
+    
+    
+     <view-state id="replyForm" view="flows/messageFlow/message_form" model="message" >
+     <transition on="backToMessages" to="allMessages" validate="true"></transition>
+     </view-state> 
+     
+     
+     <end-state id="end" view="externalRedirect:/"></end-state>
+     
+     <global-transitions>
+      <transition on="home" to="end" validate="false"/>
+     </global-transitions>
+     
+     
+      
+
+</flow>					  

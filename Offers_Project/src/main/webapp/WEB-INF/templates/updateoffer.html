@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" 
+xmlns:sec="http://www.thymeleaf.org/extras/spring-security5">
+
+<head th:replace = "fragments/layout :: head"></head>
+<body>
+  <div th:replace="fragments/layout :: header"></div>
+  
+  <div th:replace="fragments/layout :: toolbar"></div>
+  
+  <div class="content" align="center">
+  
+  <form method="POST"
+	th:action="@{/updateOffer/{offerId}(offerId=${currentOffer.id})}"
+	th:object="${offer}">
+	<input type="hidden" name="id"  />
+
+	<table class="formtable">
+		<tr>
+		<td><input type="hidden" th:field="*{id}" th:value="${currentOffer.id}"></td>
+		</tr>
+		<tr>
+		<td class="label" >Offer Name: </td>
+		<td><input type="text" class="control" name="name" th:value="${currentOffer.name}" /><br><br>
+		<span th:errors="${offer.name}" class="text-danger"></span>
+		</td>
+		</tr>
+		<tr>
+			<td class="label">Your offer:</td>
+			<td><textarea class="control"  name="text"
+					rows="10" cols="10"></textarea><br /> 
+				<span
+							th:errors="${offer.text}" class="text-danger"></span>	
+					</td>
+		</tr>
+		<tr>
+			<td class="label"></td>
+			<td><input  value="Save advert" type="submit" class="standard-button" style="height: 30px; width: 80px; margin-left: 10px; font-family: inherit; font-style: italic;" /></td>
+		</tr>
+
+		
+	</table>
+
+</form>
+  
+  </div>
+	
+	<div th:replace="fragments/layout :: footer"></div>
+	</body>
+</html>
